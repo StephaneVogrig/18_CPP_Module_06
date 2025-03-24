@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 16:39:36 by svogrig           #+#    #+#             */
-/*   Updated: 2025/03/23 22:09:43 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/03/24 02:26:15 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,11 @@
 # define SCALARCONVERTER_HPP
 
 # include <iostream>
+# include <cstdlib>
 # include <string>
+# include <iomanip>
+# include <climits>
+# include <cfloat>
 
 class ScalarConverter
 {
