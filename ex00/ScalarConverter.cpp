@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 21:25:01 by svogrig           #+#    #+#             */
-/*   Updated: 2025/03/24 02:33:27 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/03/24 02:57:47 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,13 +38,6 @@ ScalarConverter & ScalarConverter::operator = (const ScalarConverter & toAssign)
 
 /* utilities -----------------------------------------------------------------*/
 
-typedef unsigned long long t_ui64;
-typedef union u_doubleCast
-{
-	t_ui64	ui64;
-	double	d64;
-} t_doubleCast;
-
 /*
 	Checking for NaN bit patterns in C++
 	https://codereview.stackexchange.com/questions/272093/checking-for-nan-bit-patterns-in-c
@@ -55,8 +48,8 @@ typedef union u_doubleCast
 */
 static bool isNan(double d)
 {
-	t_doubleCast x;
-	x.d64 = d;
+	union U {unsigned long long ui64; double f64;} x;
+	x.f64 = d;
 	return (x.ui64 & 0x7FFFFFFFFFFFFFFFu) >= 0x7FF0000000000001u;
 }
 
