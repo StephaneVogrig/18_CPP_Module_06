@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 21:25:01 by svogrig           #+#    #+#             */
-/*   Updated: 2025/05/05 01:01:51 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/05/06 19:33:26 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,14 @@ ScalarConverter & ScalarConverter::operator = (const ScalarConverter & toAssign)
 
 void ScalarConverter::convert(const std::string & str)
 {
+	for (std::string::const_iterator it = str.begin(); it != str.end(); ++it)
+	{
+		if (*it == 'e')
+		{
+			print_convert_impossible();
+			return ;
+		}
+	}
 	if (isChar(str))
 		convertFromChar(str);
 	else if (isInt(str))
@@ -46,12 +54,7 @@ void ScalarConverter::convert(const std::string & str)
 	else if (isDouble(str))
 		convertFromDouble(str);
 	else
-	{
-		std::cout << "char: impossible" << std::endl;
-		std::cout << "int: impossible" << std::endl;
-		std::cout << "float: impossible" << std::endl;
-		std::cout << "double: impossible" << std::endl;
-	}
+		print_convert_impossible();
 }
 
 bool ScalarConverter::isChar(const std::string & str)
@@ -84,8 +87,7 @@ bool ScalarConverter::isDouble(const std::string & str)
 		return false;
 	char * endptr;
 	errno = 0;
-	double value = strtod(str.c_str(), &endptr);
-	std::cout << "value: " << value << std::endl;
+	strtod(str.c_str(), &endptr);
 	return errno == 0 && *endptr == '\0';
 }
 
@@ -94,8 +96,8 @@ void ScalarConverter::convertFromChar(const std::string & str)
 	char value = *str.begin();
 	std::cout << "char: " << value << std::endl;
 	std::cout << "int: " << static_cast<int>(value) << std::endl;
-	std::cout << "float: " << static_cast<float>(value) << ".0f" << std::endl;
-	std::cout << "double: " << static_cast<double>(value) << ".0" << std::endl;
+	printFloat(static_cast<float>(value));
+	printDouble(static_cast<double>(value));
 }
 
 void ScalarConverter::convertFromInt(const std::string & str)
@@ -103,37 +105,54 @@ void ScalarConverter::convertFromInt(const std::string & str)
 	int value = atoi(str.c_str());
 	printChar<int>(value);
 	std::cout << "int: " << value << std::endl;
-	std::cout << "float: " << static_cast<float>(value) << ".0f" << std::endl;
-	std::cout << "double: " << static_cast<double>(value) << ".0" << std::endl;
+	printFloat(static_cast<float>(value));
+	printDouble(static_cast<double>(value));
 }
 
 void ScalarConverter::convertFromFloat(const std::string & str)
 {
 	float value = strtof(str.c_str(), NULL);
 	printChar<float>(value);
-	printInt<float>(value);
+
+	if (value >= static_cast<float>(INT_MIN) && value < static_cast<float>(INT_MAX))
+		std::cout << "int: " << static_cast<int>(value) << std::endl;
+	else
+		std::cout << "int: impossible" << std::endl;
+
 	printFloat(value);
-	printDouble(static_cast<float>(value));
+	printDouble(static_cast<double>(value));
 }
 
 void ScalarConverter::convertFromDouble(const std::string & str)
 {
 	double value = strtod(str.c_str(), NULL);
 	printChar<double>(value);
-	printInt<double>(value);
+
+	if (value > static_cast<double>(INT_MIN) - 1 && value < static_cast<double>(INT_MAX) + 1)
+		std::cout << "int: " << static_cast<int>(value) << std::endl;
+	else
+		std::cout << "int: impossible" << std::endl;
+
 	printFloat(static_cast<float>(value));
 	printDouble(value);
 }
 
 void ScalarConverter::printFloat(float value)
 {
-	int nbr_decimal = nbrDecimal<float>(value);
-	std::cout << std::fixed << std::setprecision(nbr_decimal) << "float: " << value << 'f' << std::endl;
+	int precision = nbrDecimal<float>(value);
+	std::cout << std::fixed << std::setprecision(precision) << "float: " << value << 'f' << std::endl;
 };
 
 void ScalarConverter::printDouble(double value)
 {
-	int nbr_decimal = nbrDecimal<double>(value);
-	std::cout << std::fixed << std::setprecision(nbr_decimal) << "double: " << value << std::endl;
+	int precision = nbrDecimal<double>(value);
+	std::cout << std::fixed << std::setprecision(precision) << "double: " << value << std::endl;
 };
 
+void ScalarConverter::print_convert_impossible()
+{
+	std::cout << "char: impossible" << std::endl;
+	std::cout << "int: impossible" << std::endl;
+	std::cout << "float: impossible" << std::endl;
+	std::cout << "double: impossible" << std::endl;
+}

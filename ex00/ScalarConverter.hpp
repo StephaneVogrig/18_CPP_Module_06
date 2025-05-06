@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 16:39:36 by svogrig           #+#    #+#             */
-/*   Updated: 2025/05/05 01:02:14 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/05/06 19:53:28 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,49 +42,59 @@ template <typename valueType>
 int nbrDecimal(valueType value)
 {
 	if (is_nan(value) || is_inf(value))
-		return 0;
-	valueType decimal_part = std::abs(std::fmod(value, static_cast<valueType>(1.0)));
+		return 1;
+	int max_significant = std::numeric_limits<valueType>::digits10 + 1;
+	int int_part = static_cast<int>(value);
+	int nbr_significant = 0;
+	if (int_part != 0)
+	{
+		std::ostringstream oss;
+		oss << int_part;
+		nbr_significant = oss.str().length();
+	}
+	valueType decimal_part = std::abs(std::fmod(value, 1.0));
 	int nbr_decimal = 0;
 	int precision = 0;
-	int nbr_zero_at_end = 0;
-	while (decimal_part != static_cast<valueType>(0.0) && precision <= std::numeric_limits<valueType>::digits10)
+	while (decimal_part != 0.0 && nbr_significant <= max_significant)
 	{
-		decimal_part *= static_cast<valueType>(10);
-		int int_part = static_cast<int>(decimal_part);
-		if (precision != 0 || int_part != 0)
-			precision++;
-		if (int_part != 0)
-			nbr_zero_at_end = 0;
-		else
-			nbr_zero_at_end++;
-		decimal_part = std::fmod(decimal_part, static_cast<valueType>(1.0));
 		nbr_decimal++;
+		if (nbr_significant != 0)
+			nbr_significant++;
+		decimal_part *= 10;
+		int_part = static_cast<int>(decimal_part);
+		if (int_part)
+			break ;
 	}
-	nbr_decimal -= nbr_zero_at_end;
-	std::cout << "nbr_decimal: " << nbr_decimal << std::endl;
-	return nbr_decimal;
+	if (nbr_significant > nbr_decimal)
+		precision = max_significant - (nbr_significant - nbr_decimal);
+	else
+		precision = nbr_decimal + max_significant;
+	if (precision == 0)
+		precision = 1;
+	std::ostringstream oss;
+	oss << std::fixed << std::setprecision(precision) << value;
+	std::string str = oss.str();
+	std::string::iterator it = str.end() - 1;
+	while (*it == '0')
+	{
+		--precision;
+		--it;
+	}
+	if (precision <= 0)
+		return 1;
+	return precision;
 };
 
 template <typename valueType>
 void printChar(valueType value)
 {
-	if (value >= static_cast<valueType>(32) && value < static_cast<valueType>(128))
+	if (value >= 32 && value < 128)
 		std::cout << "char: '" << static_cast<char>(value) << "'" << std::endl;
-	else if (is_nan(value) || value < static_cast<valueType>(0) || value >= static_cast<valueType>(129))
+	else if (is_nan(value) || value < 0 || value >= 129)
 		std::cout << "char: impossible" << std::endl;
 	else
 		std::cout << "char: Non displayable" << std::endl;
 };
-
-template <typename valueType>
-void printInt(valueType value)
-{
-	if (value >= static_cast<valueType>(INT_MIN) && value <= static_cast<valueType>(INT_MAX))
-		std::cout << "int: " << static_cast<int>(value) << std::endl;
-	else
-		std::cout << "int: impossible" << std::endl;
-};
-
 
 class ScalarConverter
 {
@@ -111,6 +121,7 @@ class ScalarConverter
 
 		static void printFloat(float value);
 		static void printDouble(double value);
+		static void print_convert_impossible();
 
 };
 
