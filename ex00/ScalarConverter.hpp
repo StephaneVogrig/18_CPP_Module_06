@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 16:39:36 by svogrig           #+#    #+#             */
-/*   Updated: 2025/05/06 19:53:28 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/05/06 23:50:42 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,12 +46,14 @@ int nbrDecimal(valueType value)
 	int max_significant = std::numeric_limits<valueType>::digits10 + 1;
 	int int_part = static_cast<int>(value);
 	int nbr_significant = 0;
+
 	if (int_part != 0)
 	{
 		std::ostringstream oss;
 		oss << int_part;
 		nbr_significant = oss.str().length();
 	}
+
 	valueType decimal_part = std::abs(std::fmod(value, 1.0));
 	int nbr_decimal = 0;
 	int precision = 0;
@@ -65,6 +67,7 @@ int nbrDecimal(valueType value)
 		if (int_part)
 			break ;
 	}
+
 	if (nbr_significant > nbr_decimal)
 		precision = max_significant - (nbr_significant - nbr_decimal);
 	else
@@ -75,15 +78,15 @@ int nbrDecimal(valueType value)
 	oss << std::fixed << std::setprecision(precision) << value;
 	std::string str = oss.str();
 	std::string::iterator it = str.end() - 1;
+
 	while (*it == '0')
 	{
 		--precision;
 		--it;
 	}
-	if (precision <= 0)
-		return 1;
-	return precision;
-};
+
+	return precision <= 0 ? 1 : precision;
+}
 
 template <typename valueType>
 void printChar(valueType value)
@@ -94,7 +97,7 @@ void printChar(valueType value)
 		std::cout << "char: impossible" << std::endl;
 	else
 		std::cout << "char: Non displayable" << std::endl;
-};
+}
 
 class ScalarConverter
 {
@@ -121,7 +124,7 @@ class ScalarConverter
 
 		static void printFloat(float value);
 		static void printDouble(double value);
-		static void print_convert_impossible();
+		static void printConvertImpossible();
 
 };
 

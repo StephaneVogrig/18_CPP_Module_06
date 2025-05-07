@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 21:25:01 by svogrig           #+#    #+#             */
-/*   Updated: 2025/05/06 19:33:26 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/05/07 14:40:15 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,11 +37,12 @@ ScalarConverter & ScalarConverter::operator = (const ScalarConverter & toAssign)
 
 void ScalarConverter::convert(const std::string & str)
 {
+	// subject want to not handle scientific notation
 	for (std::string::const_iterator it = str.begin(); it != str.end(); ++it)
 	{
 		if (*it == 'e')
 		{
-			print_convert_impossible();
+			printConvertImpossible();
 			return ;
 		}
 	}
@@ -54,7 +55,7 @@ void ScalarConverter::convert(const std::string & str)
 	else if (isDouble(str))
 		convertFromDouble(str);
 	else
-		print_convert_impossible();
+		printConvertImpossible();
 }
 
 bool ScalarConverter::isChar(const std::string & str)
@@ -149,7 +150,7 @@ void ScalarConverter::printDouble(double value)
 	std::cout << std::fixed << std::setprecision(precision) << "double: " << value << std::endl;
 };
 
-void ScalarConverter::print_convert_impossible()
+void ScalarConverter::printConvertImpossible()
 {
 	std::cout << "char: impossible" << std::endl;
 	std::cout << "int: impossible" << std::endl;
