@@ -6,12 +6,14 @@
 #    By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/22 03:03:35 by svogrig           #+#    #+#              #
-#    Updated: 2025/03/23 21:36:31 by svogrig          ###   ########.fr        #
+#    Updated: 2025/05/07 16:15:08 by svogrig          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME	:=	programm
+NAME	:=	serializer
 
-SRC 	:=	main.cpp
+SRC 	:=	main.cpp \
+			Serializer.cpp \
+			utils.cpp
 
 include ../ex00/Makefile
