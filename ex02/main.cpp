@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 18:33:21 by svogrig           #+#    #+#             */
-/*   Updated: 2025/05/08 13:05:05 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/05/10 15:23:31 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ void identify(Base & p)
 		A& ref = dynamic_cast<A&>(p);
 		(void)ref;
 		std::cout << 'A' << std::endl;
+		return;
 	}
 	catch(const std::exception& e)
 	{}
@@ -54,6 +55,7 @@ void identify(Base & p)
 		B& ref = dynamic_cast<B&>(p);
 		(void)ref;
 		std::cout << 'B' << std::endl;
+		return;
 	}
 	catch(const std::exception& e)
 	{}
@@ -62,6 +64,7 @@ void identify(Base & p)
 		C& ref = dynamic_cast<C&>(p);
 		(void)ref;
 		std::cout << 'C' << std::endl;
+		return;
 	}
 	catch(const std::exception& e)
 	{}
