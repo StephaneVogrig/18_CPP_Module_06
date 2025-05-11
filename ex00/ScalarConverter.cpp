@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 21:25:01 by svogrig           #+#    #+#             */
-/*   Updated: 2025/05/07 14:40:15 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/05/10 15:41:52 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void ScalarConverter::convert(const std::string & str)
 	// subject want to not handle scientific notation
 	for (std::string::const_iterator it = str.begin(); it != str.end(); ++it)
 	{
-		if (*it == 'e')
+		if (*it == 'e' || *it == 'E')
 		{
 			printConvertImpossible();
 			return ;
