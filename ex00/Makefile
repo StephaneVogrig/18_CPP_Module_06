@@ -6,7 +6,7 @@
 #    By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/22 03:03:35 by svogrig           #+#    #+#              #
-#    Updated: 2025/05/04 08:20:21 by svogrig          ###   ########.fr        #
+#    Updated: 2025/05/12 15:55:55 by svogrig          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,12 +22,12 @@ SRC 		?=	main.cpp \
 OBJ_DIR		:=	.build/
 OBJ			:=	$(SRC:%.cpp=$(OBJ_DIR)%.o)
 
-DEPS		:=	$(OBJ:.o=.d)
+DEPS		:=	$(OBJ:.o=$(OBJ_DIR)%.d)
 
 # compilation -----------------------------------------------------------------#
 
 CXX			:=	c++
-CXXFLAGS	:=	-Wall -Wextra -Werror -std=c++98 -g
+CXXFLAGS	:=	-Wall -Wextra -Werror
 
 #------------------------------------------------------------------------------#
 # rules                                                                        #
