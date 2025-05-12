@@ -6,16 +6,18 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 15:17:34 by svogrig           #+#    #+#             */
-/*   Updated: 2025/05/07 16:44:15 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/05/12 15:22:03 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef DATA_HPP
 # define DATA_HPP
 
+# include <string>
+
 struct Data
 {
-	int data;
+	std::string data;
 };
 
 #endif
